@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ghmc/notifier.dart';
 
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [ChangeNotifierProvider(create: (_) => Notifier())],
+        providers: [ChangeNotifierProvider(create: (_) => Notifier()),
+          ChangeNotifierProvider(create: (_) => LoadingState())
+        ],
         child: MaterialApp(
           initialRoute: AllRoutes.initial,
           routes: AllPages.routes,

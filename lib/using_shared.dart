@@ -2,21 +2,19 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ghmc/model.dart';
-import 'package:ghmc/provider_file.dart';
 import 'package:ghmc/routes/app_routes.dart';
+import 'package:ghmc/sharedpreferenace.dart';
 import 'package:ghmc/widgets/text.dart';
-import 'package:provider/provider.dart';
 
-class loginWithFormField extends StatefulWidget {
-  const loginWithFormField({super.key});
+class Shared extends StatefulWidget {
+  const Shared({super.key});
 
   @override
-  State<loginWithFormField> createState() => _loginWithFormFieldState();
+  State<Shared> createState() => _SharedState();
 }
 
-class _loginWithFormFieldState extends State<loginWithFormField> {
+class _SharedState extends State<Shared> {
   TextEditingController number = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   FocusNode myFocusNode = new FocusNode();
@@ -94,9 +92,6 @@ class _loginWithFormFieldState extends State<loginWithFormField> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            /* if (number.text == ResponseData.mOBILENO) {
-                              fetchLoginDetailsFromApi();
-                            } */
                             fetchLoginDetailsFromApi();
 
                             if (_isLoading) return;
@@ -168,7 +163,8 @@ class _loginWithFormFieldState extends State<loginWithFormField> {
 
     //Response
     try {
-      final _response = await _dioObject.get(requestUrl, queryParameters: {"MOBILE_NO": number.text});
+      final _response = await _dioObject
+          .get(requestUrl, queryParameters: {"MOBILE_NO": number.text});
 //
       // print("Response is $_response");
 
@@ -179,7 +175,24 @@ class _loginWithFormFieldState extends State<loginWithFormField> {
           this.ResponseData = data;
         });
         if (ResponseData.status == 'M') {
-          Navigator.pushNamed(context, AllRoutes.TakeAction_Screen);
+          SharedPreferencesClass()
+              .writeTheData("mobileNumber", ResponseData.mOBILENO);
+          SharedPreferencesClass().writeTheData("mpin", ResponseData.mpin);
+          SharedPreferencesClass().writeTheData("otp", ResponseData.otp);
+          SharedPreferencesClass().writeTheData("category", ResponseData.cATEGORY);
+          SharedPreferencesClass()
+ .writeTheData("designation", ResponseData.dESIGNATION);
+          SharedPreferencesClass().writeTheData("empd", ResponseData.eMPD);
+          SharedPreferencesClass()
+              .writeTheData("empName", ResponseData.eMPNAME);
+          SharedPreferencesClass()
+              .writeTheData("message", ResponseData.message);
+          SharedPreferencesClass().writeTheData("status", ResponseData.status);
+          SharedPreferencesClass()
+              .writeTheData("tokenId", ResponseData.tOKENID);
+          SharedPreferencesClass().writeTheData("typeId", ResponseData.tYPEID);
+
+          Navigator.pushNamed(context, AllRoutes.otp_new_screen);
         } else if (ResponseData.status == 'O') {
           Navigator.pushNamed(context, AllRoutes.otp_new_screen);
         } else if (ResponseData.status == 'N') {
@@ -198,8 +211,8 @@ class _loginWithFormFieldState extends State<loginWithFormField> {
           e.response?.statusCode == 500 ||
           e.response?.statusCode == 400) {
         print(e.response?.statusMessage);
-       // showAlert("${e.response?.statusMessage}");
-       showAlert("Server not responding \n Please try again");
+        // showAlert("${e.response?.statusMessage}");
+        showAlert("Server not responding \n Please try again");
       }
     }
   }
@@ -209,7 +222,14 @@ class _loginWithFormFieldState extends State<loginWithFormField> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: TextWidget(text: message+text, left: 0, right: 0, top: 0, bottom: 0,fontsize: 15,),
+            title: TextWidget(
+              text: message + text,
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              fontsize: 15,
+            ),
             // title: Text(message + text),
             actions: [
               TextButton(

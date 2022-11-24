@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class textButton extends StatelessWidget {
   const textButton(
@@ -16,6 +17,7 @@ class textButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Container(
@@ -41,3 +43,25 @@ class textButton extends StatelessWidget {
     );
   }
 }
+//button
+                  /*  GestureDetector(
+                    onTap: (() {
+                      if (_formKey.currentState!.validate()) {
+                       // fetchLoginDetailsFromApi();
+                      }
+                    }),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Container(
+                        width: 80,
+                        height: 40,
+                        color: Color.fromARGB(255, 9, 16, 20),
+                        child: const Center(
+                            child: Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
+                  ), */

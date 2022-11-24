@@ -2,18 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:ghmc/widgets/background_image.dart';
+import 'package:ghmc/routes/app_routes.dart';
+import 'package:ghmc/sharedpreferenace.dart';
 import 'package:ghmc/widgets/button.dart';
 import 'package:ghmc/widgets/text.dart';
 
-class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+class OtpNewScreen extends StatefulWidget {
+  const OtpNewScreen({super.key});
 
   @override
-  State<OtpScreen> createState() => _OtpScreenState();
+  State<OtpNewScreen> createState() => _OtpNewScreenState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class _OtpNewScreenState extends State<OtpNewScreen> {
   final _formKey = GlobalKey<FormState>();
   FocusNode myFocusNode = new FocusNode();
   TextEditingController Otp = TextEditingController();
@@ -61,7 +62,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       padding: const EdgeInsets.only(right: 150, left: 160),
                       child: TextFormField(
                         controller: Otp,
-                       /*  onChanged: (text) {
+                        /*  onChanged: (text) {
                           if (text.isNotEmpty) {
                             setState(() {
                               valid();
@@ -94,11 +95,11 @@ class _OtpScreenState extends State<OtpScreen> {
                             )),
                       ),
                     ),
+                    v()
 
+                    /*  FocusNode().hasFocus ? valid() : v(),
+                    Text("${FocusNode().hasFocus}"), */
 
-                    FocusNode().hasFocus ? valid() : v(),
-                    Text("${FocusNode().hasFocus}"),
-                    
                     // v(),
                     //valid(),
                   ],
@@ -115,7 +116,6 @@ class _OtpScreenState extends State<OtpScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   
   }
 
   @override
@@ -127,17 +127,24 @@ class _OtpScreenState extends State<OtpScreen> {
   v() {
     return Container(
       child: Column(
-        children: const [
-          
-          textButton(
+        children: [
+          /*  textButton(
             
             text: "VALIDATE OTP",
             height: 45,
             width: 150,
             backgroundcolor: Colors.pinkAccent,
-          ),
-          TextWidget(
-            
+          ), */
+          ElevatedButton(
+              onPressed: (() async {
+                final result =
+                    await SharedPreferencesClass().readTheData("otp");
+                if (result == Otp.text) {
+                  Navigator.pushNamed(context, AllRoutes.TakeAction_Screen);
+                }
+              }),
+              child: const Text("Validate")),
+          const TextWidget(
               text: "Waiting for OTP: 00: 10 ",
               textcolor: Colors.white,
               fontsize: 17,
@@ -154,12 +161,12 @@ class _OtpScreenState extends State<OtpScreen> {
     return Container(
       child: Column(
         children: const [
-          textButton(
+          /* textButton(
             text: "VALIDATE OTP",
             height: 45,
             width: 150,
             backgroundcolor: Colors.pinkAccent,
-          ),
+          ), */
           TextWidget(
               text: "Don't Recieve the code? ",
               textcolor: Colors.white,
@@ -178,6 +185,4 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     );
   }
-
- 
 }

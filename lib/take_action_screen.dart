@@ -92,7 +92,7 @@ class _TakeActionScreenState extends State<TakeActionScreen> {
               )
               ,),
             ),
-            ImgPicker()
+             ImgPicker()
           ],
         ),
       ),

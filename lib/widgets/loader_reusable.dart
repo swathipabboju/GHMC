@@ -9,7 +9,8 @@ class LoaderReusableState extends StatelessWidget {
       this.textColor,
       this.loaderText,
       this.child,
-      this.onClick, this.textsize});
+      this.onClick,
+      this.textsize});
   final Color? loaderColor;
   final Color? textColor;
   final String? loaderText;
@@ -18,11 +19,13 @@ class LoaderReusableState extends StatelessWidget {
   final Function()? onClick;
   @override
   Widget build(BuildContext context) {
+    final pro = Provider.of<LoadingState>(context);
+    bool _isLoading = false;
+
     return Container(
-      
       child: Column(
-       crossAxisAlignment: CrossAxisAlignment.center,
-       mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -34,9 +37,13 @@ class LoaderReusableState extends StatelessWidget {
             padding: const EdgeInsets.all(25.0),
             child: Text(
               loaderText ?? "",
-              style: TextStyle(color: textColor,fontSize: textsize,),
+              style: TextStyle(
+                color: textColor,
+                fontSize: textsize,
+              ),
             ),
           ),
+          
         ],
       ),
     );
